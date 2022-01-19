@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
 
     SwipeRefreshLayout refreshLayout;
 
+    Boolean hasMore = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,13 +63,6 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
             @Override
             public void onClick(Articles article) {
                 Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
-//                intent.putExtra("title", article.getTitle());
-//                intent.putExtra("content", article.getContent());
-//                intent.putExtra("desc", article.getTitle());
-//                intent.putExtra("image", article.getUrlToImage());
-//                intent.putExtra("url", article.getUrl());
-//                intent.putExtra("category", lastCategory);
-
                 intent.putExtra("article", article);
 
                 startActivity(intent);
@@ -79,19 +74,17 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         newsRV.setLayoutManager(layoutManager);
         newsRV.setAdapter(newsRVAdapter);
 
-        //categoryRV.setLayoutManager(layoutManager);
         categoryRV.setAdapter(categoryRVAdapter);
 
         getCategories();
 
         callNewsApi("All");
-        //getNews("All");
         newsRVAdapter.notifyDataSetChanged();
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                newsRVAdapter.clearData();
+                hasMore = true;
                 callNewsApi(lastCategory);
             }
         });
@@ -109,45 +102,10 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         categoryRVAdapter.notifyDataSetChanged();
     }
 
-    private void getNews(String category) {
-        loadingPB.setVisibility(View.VISIBLE);
-        articlesArrayList.clear();
-        String categoryURL = "http://newsapi.org/v2/top-headlines?country=in&category=" + category + "&apiKey=3dde52248f66463eb8ef34f3d19cb936";
-        String url = "http://newsapi.org/v2/top-headlines?country=in&excludeDomains=stackoverflow.com&sortBy=publishedAt&language=en&apiKey=3dde52248f66463eb8ef34f3d19cb936";
-        String BASE_URL = "http://newsapi.org/";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<NewsModal> call;
-        if(category.equals("All")) {
-            call = retrofitAPI.getAllNews("us","3dde52248f66463eb8ef34f3d19cb936");
-        } else {
-            call = retrofitAPI.getNewsByCategory("in", category, "3dde52248f66463eb8ef34f3d19cb936");
-        }
-
-        call.enqueue(new Callback<NewsModal>() {
-            @Override
-            public void onResponse(Call<NewsModal> call, Response<NewsModal> response) {
-                NewsModal newsModal = response.body();
-                loadingPB.setVisibility(View.GONE);
-                ArrayList<Articles> articles = newsModal.getArticles();
-                for (int i = 0; i < articles.size(); i++) {
-                    articlesArrayList.add(new Articles(articles.get(i).getTitle(), articles.get(i).getDescription(), articles.get(i).getUrlToImage(), articles.get(i).getUrl(), articles.get(i).getContent()));
-                }
-                newsRVAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<NewsModal> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Fail to get news", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void callNewsApi(String category) {
-        loadingPB.setVisibility(View.VISIBLE);
+        if (!hasMore) {
+            loadingPB.setVisibility(View.VISIBLE);
+        }
         articlesArrayList.clear();
         RetrofitAPI service = RetrofitClient.getClient().create(RetrofitAPI.class);
         Call<NewsModal> call = service.getAllNews("us","3dde52248f66463eb8ef34f3d19cb936");
@@ -170,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
                     newsRVAdapter.notifyDataSetChanged();
 
                     refreshLayout.setRefreshing(false);
+                    hasMore = false;
                 }
             }
 
