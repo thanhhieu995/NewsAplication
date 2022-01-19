@@ -3,6 +3,7 @@ package com.example.newsapplication.main;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,7 +40,9 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
     private CategoryRVAdapter categoryRVAdapter;
     private NewsRVAdapter newsRVAdapter;
 
-    private String lastCategory;
+    private String lastCategory = "All";
+
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         newsRV = findViewById(R.id.idRVNews);
         categoryRV = findViewById(R.id.idRVCategories);
         loadingPB = findViewById(R.id.idPBloading);
+        refreshLayout = findViewById(R.id.swipeRefresh);
 
         articlesArrayList = new ArrayList<>();
         categoryRVModalArrayList = new ArrayList<>();
@@ -83,6 +87,14 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         callNewsApi("All");
         //getNews("All");
         newsRVAdapter.notifyDataSetChanged();
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                newsRVAdapter.clearData();
+                callNewsApi(lastCategory);
+            }
+        });
     }
 
     private void getCategories() {
@@ -148,13 +160,17 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         call.enqueue(new Callback<NewsModal>() {
             @Override
             public void onResponse(Call<NewsModal> call, Response<NewsModal> response) {
-                NewsModal newsModal = response.body();
-                loadingPB.setVisibility(View.GONE);
-                ArrayList<Articles> articles = newsModal.getArticles();
-                for (int i = 0; i < articles.size(); i++) {
-                    articlesArrayList.add(new Articles(articles.get(i).getTitle(), articles.get(i).getDescription(), articles.get(i).getUrlToImage(), articles.get(i).getUrl(), articles.get(i).getContent()));
+                if (response.body() != null) {
+                    NewsModal newsModal = response.body();
+                    loadingPB.setVisibility(View.GONE);
+                    ArrayList<Articles> articles = newsModal.getArticles();
+                    for (int i = 0; i < articles.size(); i++) {
+                        articlesArrayList.add(new Articles(articles.get(i).getTitle(), articles.get(i).getDescription(), articles.get(i).getUrlToImage(), articles.get(i).getUrl(), articles.get(i).getContent()));
+                    }
+                    newsRVAdapter.notifyDataSetChanged();
+
+                    refreshLayout.setRefreshing(false);
                 }
-                newsRVAdapter.notifyDataSetChanged();
             }
 
             @Override

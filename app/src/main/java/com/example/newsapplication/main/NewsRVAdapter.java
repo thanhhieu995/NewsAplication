@@ -55,11 +55,20 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return articlesArrayList.size();
+        if (articlesArrayList != null) {
+            return articlesArrayList.size();
+        } else {
+            return 0;
+        }
     }
 
     public void setNewsClickListener(NewsClickListener newsClickListener) {
         this.newsClickListener = newsClickListener;
+    }
+
+    public void clearData() {
+        this.articlesArrayList = null;
+        notifyDataSetChanged();
     }
 
     interface NewsClickListener {
