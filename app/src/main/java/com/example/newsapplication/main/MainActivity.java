@@ -1,0 +1,175 @@
+package com.example.newsapplication.main;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.example.newsapplication.NewsDetailActivity;
+import com.example.newsapplication.api.RetrofitClient;
+import com.example.newsapplication.model.Articles;
+import com.example.newsapplication.R;
+import com.example.newsapplication.api.RetrofitAPI;
+import com.example.newsapplication.model.CategoryRVModal;
+import com.example.newsapplication.model.NewsModal;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class MainActivity extends AppCompatActivity implements CategoryRVAdapter.CategoryClickInterface {
+
+    //3dde52248f66463eb8ef34f3d19cb936
+
+    private RecyclerView newsRV, categoryRV;
+    private ProgressBar loadingPB;
+    private ArrayList<Articles> articlesArrayList;
+    private ArrayList<CategoryRVModal> categoryRVModalArrayList;
+    private CategoryRVAdapter categoryRVAdapter;
+    private NewsRVAdapter newsRVAdapter;
+
+    private String lastCategory;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        newsRV = findViewById(R.id.idRVNews);
+        categoryRV = findViewById(R.id.idRVCategories);
+        loadingPB = findViewById(R.id.idPBloading);
+
+        articlesArrayList = new ArrayList<>();
+        categoryRVModalArrayList = new ArrayList<>();
+        newsRVAdapter = new NewsRVAdapter(articlesArrayList, this);
+        newsRVAdapter.setNewsClickListener(new NewsRVAdapter.NewsClickListener() {
+            @Override
+            public void onClick(Articles article) {
+                Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
+//                intent.putExtra("title", article.getTitle());
+//                intent.putExtra("content", article.getContent());
+//                intent.putExtra("desc", article.getTitle());
+//                intent.putExtra("image", article.getUrlToImage());
+//                intent.putExtra("url", article.getUrl());
+//                intent.putExtra("category", lastCategory);
+
+                intent.putExtra("article", article);
+
+                startActivity(intent);
+            }
+        });
+        categoryRVAdapter = new CategoryRVAdapter(categoryRVModalArrayList, this, this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+        newsRV.setLayoutManager(layoutManager);
+        newsRV.setAdapter(newsRVAdapter);
+
+        //categoryRV.setLayoutManager(layoutManager);
+        categoryRV.setAdapter(categoryRVAdapter);
+
+        getCategories();
+
+        callNewsApi("All");
+        //getNews("All");
+        newsRVAdapter.notifyDataSetChanged();
+    }
+
+    private void getCategories() {
+        categoryRVModalArrayList.add(new CategoryRVModal("All", "https://images.unsplash.com/photo-1641889588459-c9fd1df8b265?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=900&q=60"));
+        categoryRVModalArrayList.add(new CategoryRVModal("Technology", "https://images.unsplash.com/photo-1553272725-086100aecf5e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=900&q=60"));
+        categoryRVModalArrayList.add(new CategoryRVModal("Science", "https://images.unsplash.com/photo-1641841344411-49dbd02896f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=900&q=60"));
+        categoryRVModalArrayList.add(new CategoryRVModal("Sport", "https://images.unsplash.com/photo-1632845617263-a8cc868f613b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDExfHRvd0paRnNrcEdnfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60"));
+        categoryRVModalArrayList.add(new CategoryRVModal("General", "https://images.unsplash.com/photo-1641238215950-9e0435966e20?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDF8Ym84alFLVGFFMFl8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60"));
+        categoryRVModalArrayList.add(new CategoryRVModal("Business", "https://images.unsplash.com/photo-1641760378661-6f290a50a62d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDJ8YWV1NnJMLWo2ZXd8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60"));
+        categoryRVModalArrayList.add(new CategoryRVModal("Entertainment", "https://images.unsplash.com/photo-1641610856184-99f8e66da478?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDEwfFM0TUtMQXNCQjc0fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60"));
+        categoryRVModalArrayList.add(new CategoryRVModal("Health", "https://images.unsplash.com/photo-1641808895530-4de94b53c6e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDN8X2hiLWRsNFEtNFV8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60"));
+        categoryRVAdapter.notifyDataSetChanged();
+    }
+
+    private void getNews(String category) {
+        loadingPB.setVisibility(View.VISIBLE);
+        articlesArrayList.clear();
+        String categoryURL = "http://newsapi.org/v2/top-headlines?country=in&category=" + category + "&apiKey=3dde52248f66463eb8ef34f3d19cb936";
+        String url = "http://newsapi.org/v2/top-headlines?country=in&excludeDomains=stackoverflow.com&sortBy=publishedAt&language=en&apiKey=3dde52248f66463eb8ef34f3d19cb936";
+        String BASE_URL = "http://newsapi.org/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<NewsModal> call;
+        if(category.equals("All")) {
+            call = retrofitAPI.getAllNews("us","3dde52248f66463eb8ef34f3d19cb936");
+        } else {
+            call = retrofitAPI.getNewsByCategory("in", category, "3dde52248f66463eb8ef34f3d19cb936");
+        }
+
+        call.enqueue(new Callback<NewsModal>() {
+            @Override
+            public void onResponse(Call<NewsModal> call, Response<NewsModal> response) {
+                NewsModal newsModal = response.body();
+                loadingPB.setVisibility(View.GONE);
+                ArrayList<Articles> articles = newsModal.getArticles();
+                for (int i = 0; i < articles.size(); i++) {
+                    articlesArrayList.add(new Articles(articles.get(i).getTitle(), articles.get(i).getDescription(), articles.get(i).getUrlToImage(), articles.get(i).getUrl(), articles.get(i).getContent()));
+                }
+                newsRVAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<NewsModal> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Fail to get news", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void callNewsApi(String category) {
+        loadingPB.setVisibility(View.VISIBLE);
+        articlesArrayList.clear();
+        RetrofitAPI service = RetrofitClient.getClient().create(RetrofitAPI.class);
+        Call<NewsModal> call = service.getAllNews("us","3dde52248f66463eb8ef34f3d19cb936");
+        if(category.equals("All")) {
+            call = service.getAllNews("us","3dde52248f66463eb8ef34f3d19cb936");
+        } else {
+            call = service.getNewsByCategory("in", category, "3dde52248f66463eb8ef34f3d19cb936");
+        }
+
+        call.enqueue(new Callback<NewsModal>() {
+            @Override
+            public void onResponse(Call<NewsModal> call, Response<NewsModal> response) {
+                NewsModal newsModal = response.body();
+                loadingPB.setVisibility(View.GONE);
+                ArrayList<Articles> articles = newsModal.getArticles();
+                for (int i = 0; i < articles.size(); i++) {
+                    articlesArrayList.add(new Articles(articles.get(i).getTitle(), articles.get(i).getDescription(), articles.get(i).getUrlToImage(), articles.get(i).getUrl(), articles.get(i).getContent()));
+                }
+                newsRVAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<NewsModal> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Fail to get news", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onCategoryClick(int position) {
+        String category = categoryRVModalArrayList.get(position).getCategory();
+        callNewsApi(category);
+        this.lastCategory = category;
+        //newsRVAdapter.setCategory(category);
+        //newsRVAdapter = new NewsRVAdapter(articlesArrayList, this, category);
+    }
+}
