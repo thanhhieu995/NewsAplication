@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
             public void onClick(Articles article) {
                 Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
                 intent.putExtra("article", article);
-
+                intent.putExtra("category", lastCategory);
                 startActivity(intent);
             }
         });
