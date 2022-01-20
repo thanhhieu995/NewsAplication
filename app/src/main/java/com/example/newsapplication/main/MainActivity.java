@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import com.example.newsapplication.R;
 import com.example.newsapplication.api.RetrofitAPI;
 import com.example.newsapplication.model.CategoryRVModal;
 import com.example.newsapplication.model.NewsModal;
+import com.example.newsapplication.search.SearchActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
     private CategoryRVAdapter categoryRVAdapter;
     private NewsRVAdapter newsRVAdapter;
 
+    ImageView imgSearch;
+
     private String lastCategory = "All";
 
     SwipeRefreshLayout refreshLayout;
@@ -56,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         categoryRV = findViewById(R.id.idRVCategories);
         loadingPB = findViewById(R.id.idPBloading);
         refreshLayout = findViewById(R.id.swipeRefresh);
+        imgSearch = findViewById(R.id.imgSearch);
+
 
         articlesArrayList = new ArrayList<>();
         categoryRVModalArrayList = new ArrayList<>();
@@ -87,6 +94,14 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
             public void onRefresh() {
                 hasMore = true;
                 callNewsApi(lastCategory);
+            }
+        });
+
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
             }
         });
     }
