@@ -31,13 +31,13 @@
         app:layout_constraintTop_toBottomOf="@+id/imgLayout_Search" />
 
     <TextView
-        android:id="@+id/item_Search_txtDescription"
+        android:id="@+id/item_Search_txtContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Description"
+        android:text="Content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
