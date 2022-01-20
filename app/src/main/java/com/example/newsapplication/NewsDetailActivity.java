@@ -1,6 +1,7 @@
 package com.example.newsapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import com.example.newsapplication.model.Articles;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
@@ -23,6 +25,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     private TextView titleTV, subDescTV, contentTV, categoryTV;
     private ImageView newsIV;
     private Button readNewsBtn;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +50,20 @@ public class NewsDetailActivity extends AppCompatActivity {
         newsIV = findViewById(R.id.DetailIVNews);
         readNewsBtn = findViewById(R.id.DetailBtnRead);
         categoryTV = findViewById(R.id.DetailTVCategory);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshDetail);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         titleTV.setText(article.getTitle());
         subDescTV.setText(article.getDescription());
         contentTV.setText(article.getContent());
         Picasso.get().load(article.getUrlToImage()).into(newsIV);
 
-        categoryTV.setText(category);
+        categoryTV.setText(category.toUpperCase(Locale.ROOT));
 
         readNewsBtn.setOnClickListener(new View.OnClickListener() {
             @Override

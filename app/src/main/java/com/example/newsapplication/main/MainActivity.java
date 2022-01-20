@@ -22,6 +22,7 @@ import com.example.newsapplication.model.NewsModal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
 
         getCategories();
 
-        callNewsApi("All");
+        callNewsApi("all");
         newsRVAdapter.notifyDataSetChanged();
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         articlesArrayList.clear();
         RetrofitAPI service = RetrofitClient.getClient().create(RetrofitAPI.class);
         Call<NewsModal> call = service.getAllNews("us","3dde52248f66463eb8ef34f3d19cb936");
-        if(category.equals("All")) {
+        if(category.equals("all")) {
             call = service.getAllNews("us","3dde52248f66463eb8ef34f3d19cb936");
         } else {
             call = service.getNewsByCategory("in", category, "3dde52248f66463eb8ef34f3d19cb936");
@@ -142,8 +143,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
     @Override
     public void onCategoryClick(int position) {
         String category = categoryRVModalArrayList.get(position).getCategory();
-        callNewsApi(category);
-        this.lastCategory = category;
+        callNewsApi(category.toLowerCase(Locale.ROOT));
+        this.lastCategory = category.toLowerCase(Locale.ROOT);
         //newsRVAdapter.setCategory(category);
         //newsRVAdapter = new NewsRVAdapter(articlesArrayList, this, category);
     }
