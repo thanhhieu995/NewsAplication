@@ -77,6 +77,13 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
             }
         });
         categoryRVAdapter = new CategoryRVAdapter(categoryRVModalArrayList, this, this);
+        categoryRVAdapter.setCategoryClickListener(new CategoryRVAdapter.CategoryClickInterface() {
+            @Override
+            public void onCategoryClick(int position) {
+                categoryRVModalArrayList.get(position).setCategory(lastCategory.toLowerCase());
+            }
+        });
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         newsRV.setLayoutManager(layoutManager);

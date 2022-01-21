@@ -61,6 +61,10 @@ public class CategoryRVAdapter extends RecyclerView.Adapter<CategoryRVAdapter.Vi
         void onCategoryClick(int position);
     }
 
+    public void setCategoryClickListener(CategoryClickInterface categoryClickInterface) {
+        this.categoryClickInterface = categoryClickInterface;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgCategory;
