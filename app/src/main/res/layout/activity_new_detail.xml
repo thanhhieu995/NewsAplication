@@ -30,7 +30,7 @@
                     android:id="@+id/DetailTVCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Category"
+                    android:text="Result"
                     android:textSize="24sp"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
