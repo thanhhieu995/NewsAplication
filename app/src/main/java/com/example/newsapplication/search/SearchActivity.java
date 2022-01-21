@@ -8,6 +8,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.newsapplication.NewsDetailActivity;
 import com.example.newsapplication.R;
@@ -75,10 +76,16 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                callApi(keyWord, "3dde52248f66463eb8ef34f3d19cb936");
+            }
+        });
     }
 
     private void callApi(String keyWord, String apiKey) {
-        //articlesArrayList.clear();
         RetrofitAPI service = RetrofitClient.getClient().create(RetrofitAPI.class);
         Call<NewsModal> call = service.getSearchNews(keyWord, apiKey);
         call.enqueue(new Callback<NewsModal>() {
@@ -90,7 +97,12 @@ public class SearchActivity extends AppCompatActivity {
                      for (int i = 0; i < articles.size(); i++) {
                          articlesArrayList.add(new Articles(articles.get(i).getTitle(), articles.get(i).getDescription(), articles.get(i).getUrlToImage(), articles.get(i).getUrl(), articles.get(i).getContent()));
                      }
+                     refreshLayout.setRefreshing(false);
                      newsRVAdapter.notifyDataSetChanged();
+
+                     if (articles.isEmpty()) {
+                         Toast.makeText(SearchActivity.this, "No result found", Toast.LENGTH_SHORT).show();
+                     }
                 }
             }
 

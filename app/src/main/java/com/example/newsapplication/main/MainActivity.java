@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
 
     ImageView imgSearch;
 
-    private String lastCategory = "All";
+    private String lastCategory = "all";
 
     SwipeRefreshLayout refreshLayout;
 
