@@ -38,6 +38,7 @@ public class SearchActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchView);
         rvSearch = findViewById(R.id.rv_Search);
         refreshLayout = findViewById(R.id.swipeRefresh_Search);
+        articlesArrayList = new ArrayList<>();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvSearch.setLayoutManager(layoutManager);

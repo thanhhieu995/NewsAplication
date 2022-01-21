@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         String category = categoryRVModalArrayList.get(position).getCategory();
         callNewsApi(category.toLowerCase(Locale.ROOT));
         this.lastCategory = category.toLowerCase(Locale.ROOT);
+        newsRVAdapter.notifyDataSetChanged();
         //newsRVAdapter.setCategory(category);
         //newsRVAdapter = new NewsRVAdapter(articlesArrayList, this, category);
     }
