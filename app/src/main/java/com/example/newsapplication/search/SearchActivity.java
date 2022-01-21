@@ -64,6 +64,7 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                articlesArrayList.clear();
                 callApi(query, "3dde52248f66463eb8ef34f3d19cb936");
                 keyWord = query;
                 return false;
