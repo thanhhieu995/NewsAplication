@@ -63,8 +63,9 @@ public class NewsDetailActivity extends AppCompatActivity {
         contentTV.setText(article.getContent());
         Picasso.get().load(article.getUrlToImage()).into(newsIV);
 
-        categoryTV.setText(category.toUpperCase(Locale.ROOT));
-
+        if (category != null) {
+            categoryTV.setText(category.toUpperCase(Locale.ROOT));
+        }
         readNewsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

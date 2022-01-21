@@ -75,7 +75,7 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    interface NewsClickListener {
+    public interface NewsClickListener {
         void onClick(Articles article);
     }
 

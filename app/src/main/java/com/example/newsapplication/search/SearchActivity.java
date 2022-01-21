@@ -5,9 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.SearchView;
 
+import com.example.newsapplication.NewsDetailActivity;
 import com.example.newsapplication.R;
 import com.example.newsapplication.api.RetrofitAPI;
 import com.example.newsapplication.api.RetrofitClient;
@@ -23,12 +25,13 @@ import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity {
 
-    SearchView searchView;
-    RecyclerView rvSearch;
-    SwipeRefreshLayout refreshLayout;
+    private SearchView searchView;
+    private RecyclerView rvSearch;
+    private SwipeRefreshLayout refreshLayout;
 
-    ArrayList<Articles> articlesArrayList;
-    NewsRVAdapter newsRVAdapter;
+    private ArrayList<Articles> articlesArrayList;
+    private NewsRVAdapter newsRVAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,16 @@ public class SearchActivity extends AppCompatActivity {
         rvSearch.setLayoutManager(layoutManager);
         newsRVAdapter = new NewsRVAdapter(articlesArrayList, this);
         rvSearch.setAdapter(newsRVAdapter);
+
+        newsRVAdapter.setNewsClickListener(new NewsRVAdapter.NewsClickListener() {
+            @Override
+            public void onClick(Articles article) {
+                Intent intent = new Intent(SearchActivity.this, NewsDetailActivity.class);
+                intent.putExtra("article", article);
+                startActivity(intent);
+                newsRVAdapter.notifyDataSetChanged();
+            }
+        });
 
         searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
