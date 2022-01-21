@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.example.newsapplication.model.Articles;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class NewsDetailActivity extends AppCompatActivity {
@@ -30,7 +29,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_detail);
+        setContentView(R.layout.activity_news_detail);
 
 //        title = getIntent().getStringExtra("title");
 //        desc = getIntent().getStringExtra("desc");

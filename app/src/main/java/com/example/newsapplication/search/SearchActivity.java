@@ -31,6 +31,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<Articles> articlesArrayList;
     private NewsRVAdapter newsRVAdapter;
+    private String keyWord;
 
 
     @Override
@@ -53,6 +54,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(Articles article) {
                 Intent intent = new Intent(SearchActivity.this, NewsDetailActivity.class);
                 intent.putExtra("article", article);
+                intent.putExtra("category", keyWord);
                 startActivity(intent);
                 newsRVAdapter.notifyDataSetChanged();
             }
@@ -63,6 +65,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 callApi(query, "3dde52248f66463eb8ef34f3d19cb936");
+                keyWord = query;
                 return false;
             }
 
