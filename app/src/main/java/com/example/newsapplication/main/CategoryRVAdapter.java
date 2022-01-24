@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newsapplication.NewsDetailActivity;
@@ -50,9 +51,9 @@ public class CategoryRVAdapter extends RecyclerView.Adapter<CategoryRVAdapter.Vi
 
         if (selectedPosition == position) {
             //holder.imgCategory.setBackgroundColor(Color.GREEN);
-            holder.txtCategory.setTextColor(Color.GREEN);
+            holder.txtCategory.setTextColor(ContextCompat.getColor(context, R.color.black_shade_1));
         } else {
-            holder.txtCategory.setTextColor(Color.WHITE);
+            holder.txtCategory.setTextColor(ContextCompat.getColor(context, R.color.white));
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
