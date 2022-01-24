@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
 
     Boolean hasMore = false;
 
+    private int lastPosition = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,12 +79,12 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
             }
         });
         categoryRVAdapter = new CategoryRVAdapter(categoryRVModalArrayList, this, this);
-        categoryRVAdapter.setCategoryClickListener(new CategoryRVAdapter.CategoryClickInterface() {
-            @Override
-            public void onCategoryClick(int position) {
-                categoryRVModalArrayList.get(position).setCategory(lastCategory.toLowerCase());
-            }
-        });
+//        categoryRVAdapter.setCategoryClickListener(new CategoryRVAdapter.CategoryClickInterface() {
+//            @Override
+//            public void onCategoryClick(int position) {
+//
+//            }
+//        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
@@ -168,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         callNewsApi(category.toLowerCase(Locale.ROOT));
         this.lastCategory = category.toLowerCase(Locale.ROOT);
         newsRVAdapter.notifyDataSetChanged();
+
         //newsRVAdapter.setCategory(category);
         //newsRVAdapter = new NewsRVAdapter(articlesArrayList, this, category);
     }

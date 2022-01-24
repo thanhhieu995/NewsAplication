@@ -3,6 +3,7 @@ package com.example.newsapplication.main;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class CategoryRVAdapter extends RecyclerView.Adapter<CategoryRVAdapter.Vi
     private ArrayList<CategoryRVModal> categoryRVModals;
     private Context context;
     private CategoryClickInterface categoryClickInterface;
+    int selectedPosition = -1;
 
     public CategoryRVAdapter(ArrayList<CategoryRVModal> categoryRVModals, Context context, CategoryClickInterface categoryClickInterface) {
         this.categoryRVModals = categoryRVModals;
@@ -39,15 +41,27 @@ public class CategoryRVAdapter extends RecyclerView.Adapter<CategoryRVAdapter.Vi
         return viewHolder;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         CategoryRVModal categoryRVModal = categoryRVModals.get(position);
         holder.txtCategory.setText(categoryRVModal.getCategory());
         Picasso.get().load(categoryRVModal.getCategoryImageUrl()).into(holder.imgCategory);
+
+        if (selectedPosition == position) {
+            //holder.imgCategory.setBackgroundColor(Color.GREEN);
+            holder.txtCategory.setTextColor(Color.GREEN);
+        } else {
+            holder.txtCategory.setTextColor(Color.WHITE);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
                 categoryClickInterface.onCategoryClick(position);
+                selectedPosition = position;
+                notifyDataSetChanged();
             }
         });
     }
