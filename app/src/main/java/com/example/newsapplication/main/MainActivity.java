@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
 
     Boolean hasMore = false;
 
+    Boolean hasMoreAdapter = false;
+
     private int lastPosition = 0;
 
     @Override
@@ -95,10 +97,13 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
 //            }
 //        });
 
+        newsRVAdapter.setHasMore(hasMoreAdapter);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         newsRV.setLayoutManager(layoutManager);
         newsRV.setAdapter(newsRVAdapter);
+
 
         categoryRV.setAdapter(categoryRVAdapter);
 
@@ -112,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
             public void onRefresh() {
                 hasMore = true;
                 callNewsApi(lastCategory);
+                hasMoreAdapter = true;
             }
         });
 
@@ -140,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         if (!hasMore) {
             loadingPB.setVisibility(View.VISIBLE);
         }
+        hasMoreAdapter = true;
         articlesArrayList.clear();
         RetrofitAPI service = RetrofitClient.getClient().create(RetrofitAPI.class);
         Call<NewsModal> call = service.getAllNews("us","3dde52248f66463eb8ef34f3d19cb936");
@@ -175,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
 
     @Override
     public void onCategoryClick(int position) {
+        hasMoreAdapter = true;
         String category = categoryRVModalArrayList.get(position).getCategory();
         callNewsApi(category.toLowerCase(Locale.ROOT));
         this.lastCategory = category.toLowerCase(Locale.ROOT);

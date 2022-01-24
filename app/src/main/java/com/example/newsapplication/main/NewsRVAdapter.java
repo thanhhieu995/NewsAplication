@@ -1,7 +1,6 @@
 package com.example.newsapplication.main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newsapplication.model.Articles;
-import com.example.newsapplication.NewsDetailActivity;
 import com.example.newsapplication.R;
-import com.example.newsapplication.model.CategoryRVModal;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,6 +26,8 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
     private View view;
     private NewsItemViewClick newsItemViewClick;
 
+    private boolean hasMoreAdapter = false;
+
     public NewsRVAdapter(ArrayList<Articles> articlesArrayList, Context context) {
         this.articlesArrayList = articlesArrayList;
         this.context = context;
@@ -39,6 +38,7 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_rv_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        //hasMore = true;
         return viewHolder;
     }
 
@@ -47,7 +47,9 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
         Articles articles = articlesArrayList.get(position);
         holder.subTitleTV.setText(articles.getDescription());
         holder.titleTV.setText(articles.getTitle());
-        holder.itemView.setBackgroundColor(Color.parseColor("#424242"));
+        if (hasMoreAdapter == true) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#424242"));
+        }
         if (articles.getUrlToImage() != null) {
             if (!articles.getUrlToImage().isEmpty()) {
                 Picasso.get().load(articles.getUrlToImage()).into(holder.newsIV);
@@ -111,5 +113,9 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
             subTitleTV = itemView.findViewById(R.id.idTVSubTitle);
             newsIV = itemView.findViewById(R.id.idIVNews);
         }
+    }
+
+    public void setHasMore(boolean hasMore) {
+        this.hasMoreAdapter = hasMore;
     }
 }
