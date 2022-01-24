@@ -2,6 +2,7 @@ package com.example.newsapplication.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 newsClickListener.onClick(articles);
+                holder.itemView.setBackgroundColor(Color.parseColor("#FF6200EE"));
             }
         });
     }
@@ -78,6 +80,7 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
     public interface NewsClickListener {
         void onClick(Articles article);
     }
+    
 
 //    public void setCategory (String category) {
 //        this.category = category;

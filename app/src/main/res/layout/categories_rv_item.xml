@@ -17,14 +17,14 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/idIVCategory"
+                android:id="@+id/category_Img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@color/yellow" />
 
             <TextView
-                android:id="@+id/idTVCategory"
+                android:id="@+id/category_TVName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
