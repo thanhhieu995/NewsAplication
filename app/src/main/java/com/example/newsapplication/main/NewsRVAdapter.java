@@ -26,6 +26,8 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
     private Context context;
     private NewsClickListener newsClickListener;
     //private String category;
+    private View view;
+    private NewsItemViewClick newsItemViewClick;
 
     public NewsRVAdapter(ArrayList<Articles> articlesArrayList, Context context) {
         this.articlesArrayList = articlesArrayList;
@@ -45,6 +47,7 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
         Articles articles = articlesArrayList.get(position);
         holder.subTitleTV.setText(articles.getDescription());
         holder.titleTV.setText(articles.getTitle());
+        holder.itemView.setBackgroundColor(Color.parseColor("#424242"));
         if (articles.getUrlToImage() != null) {
             if (!articles.getUrlToImage().isEmpty()) {
                 Picasso.get().load(articles.getUrlToImage()).into(holder.newsIV);
@@ -54,7 +57,9 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 newsClickListener.onClick(articles);
-                holder.itemView.setBackgroundColor(Color.parseColor("#FF6200EE"));
+                //holder.itemView.setBackgroundColor(Color.parseColor("#FF6200EE"));
+                view = holder.itemView;
+                newsItemViewClick.onClick(view);
             }
         });
     }
@@ -80,7 +85,15 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
     public interface NewsClickListener {
         void onClick(Articles article);
     }
-    
+
+    public interface NewsItemViewClick {
+        void onClick(View view);
+    }
+
+    public void setNewsItemViewClick (NewsItemViewClick newsItemViewClick) {
+        this.newsItemViewClick = newsItemViewClick;
+    }
+
 
 //    public void setCategory (String category) {
 //        this.category = category;

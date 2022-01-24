@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -78,6 +79,14 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
                 startActivity(intent);
             }
         });
+
+        newsRVAdapter.setNewsItemViewClick(new NewsRVAdapter.NewsItemViewClick() {
+            @Override
+            public void onClick(View view) {
+                view.setBackgroundColor(Color.parseColor("#FF6200EE"));
+            }
+        });
+
         categoryRVAdapter = new CategoryRVAdapter(categoryRVModalArrayList, this, this);
 //        categoryRVAdapter.setCategoryClickListener(new CategoryRVAdapter.CategoryClickInterface() {
 //            @Override
