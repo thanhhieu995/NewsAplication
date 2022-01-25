@@ -61,7 +61,9 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
                 newsClickListener.onClick(articles);
                 //holder.itemView.setBackgroundColor(Color.parseColor("#FF6200EE"));
                 view = holder.itemView;
-                newsItemViewClick.onClick(view);
+                if (newsItemViewClick != null) {
+                    newsItemViewClick.onClick(view);
+                }
             }
         });
     }
