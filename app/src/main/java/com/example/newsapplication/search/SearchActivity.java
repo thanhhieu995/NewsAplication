@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -58,6 +60,13 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("category", keyWord);
                 startActivity(intent);
                 newsRVAdapter.notifyDataSetChanged();
+            }
+        });
+
+        newsRVAdapter.setNewsItemViewClick(new NewsRVAdapter.NewsItemViewClick() {
+            @Override
+            public void onClick(View view) {
+                view.setBackgroundColor(Color.BLUE);
             }
         });
 

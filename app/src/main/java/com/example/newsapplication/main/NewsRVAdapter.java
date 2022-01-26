@@ -1,7 +1,9 @@
 package com.example.newsapplication.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newsapplication.model.Articles;
@@ -26,7 +29,11 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
     private View view;
     private NewsItemViewClick newsItemViewClick;
 
+    private final ArrayList<Integer> selected = new ArrayList<>();
+
     private boolean hasMoreAdapter = false;
+
+    private int selectedPosition = RecyclerView.NO_POSITION;
 
     public NewsRVAdapter(ArrayList<Articles> articlesArrayList, Context context) {
         this.articlesArrayList = articlesArrayList;
@@ -43,29 +50,68 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Articles articles = articlesArrayList.get(position);
         holder.subTitleTV.setText(articles.getDescription());
         holder.titleTV.setText(articles.getTitle());
-        if (hasMoreAdapter == true) {
-            holder.itemView.setBackgroundColor(Color.parseColor("#424242"));
-        }
         if (articles.getUrlToImage() != null) {
             if (!articles.getUrlToImage().isEmpty()) {
                 Picasso.get().load(articles.getUrlToImage()).into(holder.newsIV);
             }
         }
+
+        if (!selected.contains(position)) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#292D36"));
+        } else {
+            holder.itemView.setBackgroundColor(Color.CYAN);
+        }
+
+        if (hasMoreAdapter == true) {
+            selected.clear();
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 newsClickListener.onClick(articles);
+                //selectedPosition = position;
                 //holder.itemView.setBackgroundColor(Color.parseColor("#FF6200EE"));
-                view = holder.itemView;
-                if (newsItemViewClick != null) {
-                    newsItemViewClick.onClick(view);
-                }
+                v.setBackgroundColor(Color.CYAN);
+//                view = holder.itemView;
+//                if (newsItemViewClick != null) {
+//                    newsItemViewClick.onClick(view);
+//                }
+//                if (selected.isEmpty()) {
+//                    selected.add(position);
+//                } else {
+//                    int oldSelected = selected.get(0);
+//                    //selected.clear();
+//                    selected.add(position);
+//                    notifyItemChanged(oldSelected);
+//                }
+//                selected.add(position);
+//                if(hasMoreAdapter == true) {
+//                    selected.clear();
+//                } else {
+//
+//                }
+                selected.add(position);
+//                if (hasMoreAdapter == false) {
+//                    selected.add(position);
+//                } else {
+//                    selected.clear();
+//                }
             }
         });
+
+
+
+//        if (selectedPosition == position) {
+//            holder.itemView.setBackgroundColor(Color.GREEN);
+//        } else {
+//
+//        }
+
     }
 
     @Override

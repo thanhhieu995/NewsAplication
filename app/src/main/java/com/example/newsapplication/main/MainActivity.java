@@ -82,12 +82,12 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
             }
         });
 
-        newsRVAdapter.setNewsItemViewClick(new NewsRVAdapter.NewsItemViewClick() {
-            @Override
-            public void onClick(View view) {
-                view.setBackgroundColor(Color.parseColor("#FF6200EE"));
-            }
-        });
+//        newsRVAdapter.setNewsItemViewClick(new NewsRVAdapter.NewsItemViewClick() {
+//            @Override
+//            public void onClick(View view) {
+//                view.setBackgroundColor(Color.parseColor("#FF6200EE"));
+//            }
+//        });
 
         categoryRVAdapter = new CategoryRVAdapter(categoryRVModalArrayList, this, this);
 //        categoryRVAdapter.setCategoryClickListener(new CategoryRVAdapter.CategoryClickInterface() {
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
             public void onRefresh() {
                 hasMore = true;
                 callNewsApi(lastCategory);
-                hasMoreAdapter = true;
+                newsRVAdapter.setHasMore(true);
             }
         });
 
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
         if (!hasMore) {
             loadingPB.setVisibility(View.VISIBLE);
         }
-        hasMoreAdapter = true;
+        //newsRVAdapter.setHasMore(true);
         articlesArrayList.clear();
         RetrofitAPI service = RetrofitClient.getClient().create(RetrofitAPI.class);
         Call<NewsModal> call = service.getAllNews("us","3dde52248f66463eb8ef34f3d19cb936");
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRVAdapter
 
     @Override
     public void onCategoryClick(int position) {
-        hasMoreAdapter = true;
+        newsRVAdapter.setHasMore(true);
         String category = categoryRVModalArrayList.get(position).getCategory();
         callNewsApi(category.toLowerCase(Locale.ROOT));
         this.lastCategory = category.toLowerCase(Locale.ROOT);
