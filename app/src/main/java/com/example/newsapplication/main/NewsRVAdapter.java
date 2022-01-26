@@ -60,47 +60,27 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
             }
         }
 
+        if (hasMoreAdapter == true) {
+            selected.clear();
+            hasMoreAdapter = false;
+        }
+
         if (!selected.contains(position)) {
             holder.itemView.setBackgroundColor(Color.parseColor("#292D36"));
         } else {
             holder.itemView.setBackgroundColor(Color.CYAN);
         }
 
-        if (hasMoreAdapter == true) {
-            selected.clear();
-        }
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 newsClickListener.onClick(articles);
-                //selectedPosition = position;
-                //holder.itemView.setBackgroundColor(Color.parseColor("#FF6200EE"));
                 v.setBackgroundColor(Color.CYAN);
 //                view = holder.itemView;
 //                if (newsItemViewClick != null) {
 //                    newsItemViewClick.onClick(view);
 //                }
-//                if (selected.isEmpty()) {
-//                    selected.add(position);
-//                } else {
-//                    int oldSelected = selected.get(0);
-//                    //selected.clear();
-//                    selected.add(position);
-//                    notifyItemChanged(oldSelected);
-//                }
-//                selected.add(position);
-//                if(hasMoreAdapter == true) {
-//                    selected.clear();
-//                } else {
-//
-//                }
                 selected.add(position);
-//                if (hasMoreAdapter == false) {
-//                    selected.add(position);
-//                } else {
-//                    selected.clear();
-//                }
             }
         });
 
