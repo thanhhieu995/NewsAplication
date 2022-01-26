@@ -63,12 +63,12 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        newsRVAdapter.setNewsItemViewClick(new NewsRVAdapter.NewsItemViewClick() {
-            @Override
-            public void onClick(View view) {
-                view.setBackgroundColor(Color.BLUE);
-            }
-        });
+//        newsRVAdapter.setNewsItemViewClick(new NewsRVAdapter.NewsItemViewClick() {
+//            @Override
+//            public void onClick(View view) {
+//                view.setBackgroundColor(Color.BLUE);
+//            }
+//        });
 
         searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -120,5 +120,6 @@ public class SearchActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+        newsRVAdapter.setHasMore(true);
     }
 }
