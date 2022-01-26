@@ -25,6 +25,8 @@ public class CategoryRVAdapter extends RecyclerView.Adapter<CategoryRVAdapter.Vi
     private CategoryClickInterface categoryClickInterface;
     int selectedPosition = -1;
 
+    private int time = 0;
+
     public CategoryRVAdapter(ArrayList<CategoryRVModal> categoryRVModals, Context context, CategoryClickInterface categoryClickInterface) {
         this.categoryRVModals = categoryRVModals;
         this.context = context;
@@ -46,11 +48,17 @@ public class CategoryRVAdapter extends RecyclerView.Adapter<CategoryRVAdapter.Vi
         holder.txtCategory.setText(categoryRVModal.getCategory());
         Picasso.get().load(categoryRVModal.getCategoryImageUrl()).into(holder.imgCategory);
 
+        time = time + 1;
+
         if (selectedPosition == position) {
             //holder.imgCategory.setBackgroundColor(Color.GREEN);
             holder.txtCategory.setTextColor(ContextCompat.getColor(context, R.color.black_shade_1));
         } else {
             holder.txtCategory.setTextColor(ContextCompat.getColor(context, R.color.white));
+        }
+
+        if (position == 0 && time == 1) {
+            holder.txtCategory.setTextColor(ContextCompat.getColor(context, R.color.black_shade_1));
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
