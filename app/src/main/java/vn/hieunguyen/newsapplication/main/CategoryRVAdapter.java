@@ -1,4 +1,4 @@
-package com.example.newsapplication.main;
+package vn.hieunguyen.newsapplication.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newsapplication.R;
-import com.example.newsapplication.model.CategoryRVModal;
+import vn.hieunguyen.newsapplication.model.CategoryRVModal;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

@@ -1,9 +1,8 @@
-package com.example.newsapplication.main;
+package vn.hieunguyen.newsapplication.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.newsapplication.model.Articles;
+import vn.hieunguyen.newsapplication.model.Articles;
 import com.example.newsapplication.R;
 import com.squareup.picasso.Picasso;
 

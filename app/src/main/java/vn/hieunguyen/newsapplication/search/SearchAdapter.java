@@ -1,4 +1,4 @@
-package com.example.newsapplication.search;
+package vn.hieunguyen.newsapplication.search;
 
 import android.view.LayoutInflater;
 import android.view.View;

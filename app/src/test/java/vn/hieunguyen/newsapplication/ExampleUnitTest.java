@@ -1,4 +1,4 @@
-package com.example.newsapplication;
+package vn.hieunguyen.newsapplication;
 
 import org.junit.Test;
 

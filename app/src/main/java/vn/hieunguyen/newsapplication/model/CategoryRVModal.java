@@ -1,4 +1,4 @@
-package com.example.newsapplication.model;
+package vn.hieunguyen.newsapplication.model;
 
 public class CategoryRVModal {
 

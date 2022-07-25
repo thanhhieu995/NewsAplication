@@ -1,4 +1,4 @@
-package com.example.newsapplication;
+package vn.hieunguyen.newsapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.newsapplication.model.Articles;
+import com.example.newsapplication.R;
+
+import vn.hieunguyen.newsapplication.model.Articles;
 import com.squareup.picasso.Picasso;
 
 import java.util.Locale;

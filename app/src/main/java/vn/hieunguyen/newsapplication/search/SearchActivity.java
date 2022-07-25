@@ -1,4 +1,4 @@
-package com.example.newsapplication.search;
+package vn.hieunguyen.newsapplication.search;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,19 +6,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.newsapplication.NewsDetailActivity;
+import vn.hieunguyen.newsapplication.NewsDetailActivity;
 import com.example.newsapplication.R;
-import com.example.newsapplication.api.RetrofitAPI;
-import com.example.newsapplication.api.RetrofitClient;
-import com.example.newsapplication.main.NewsRVAdapter;
-import com.example.newsapplication.model.Articles;
-import com.example.newsapplication.model.NewsModal;
+import vn.hieunguyen.newsapplication.api.RetrofitAPI;
+import vn.hieunguyen.newsapplication.api.RetrofitClient;
+import vn.hieunguyen.newsapplication.main.NewsRVAdapter;
+import vn.hieunguyen.newsapplication.model.Articles;
+import vn.hieunguyen.newsapplication.model.NewsModal;
 
 import java.util.ArrayList;
 

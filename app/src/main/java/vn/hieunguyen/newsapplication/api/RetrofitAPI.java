@@ -1,12 +1,10 @@
-package com.example.newsapplication.api;
+package vn.hieunguyen.newsapplication.api;
 
-import com.example.newsapplication.model.NewsModal;
+import vn.hieunguyen.newsapplication.model.NewsModal;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 
 public interface RetrofitAPI {
     @GET("v2/top-headlines")

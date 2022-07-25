@@ -1,4 +1,4 @@
-package com.example.newsapplication.main;
+package vn.hieunguyen.newsapplication.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,33 +6,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.newsapplication.NewsDetailActivity;
-import com.example.newsapplication.api.RetrofitClient;
-import com.example.newsapplication.model.Articles;
+import vn.hieunguyen.newsapplication.NewsDetailActivity;
+import vn.hieunguyen.newsapplication.api.RetrofitClient;
+import vn.hieunguyen.newsapplication.model.Articles;
 import com.example.newsapplication.R;
-import com.example.newsapplication.api.RetrofitAPI;
-import com.example.newsapplication.model.CategoryRVModal;
-import com.example.newsapplication.model.NewsModal;
-import com.example.newsapplication.search.SearchActivity;
+import vn.hieunguyen.newsapplication.api.RetrofitAPI;
+import vn.hieunguyen.newsapplication.model.CategoryRVModal;
+import vn.hieunguyen.newsapplication.model.NewsModal;
+import vn.hieunguyen.newsapplication.search.SearchActivity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements CategoryRVAdapter.CategoryClickInterface {
 

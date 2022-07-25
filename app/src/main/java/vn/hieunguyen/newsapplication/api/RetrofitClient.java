@@ -1,4 +1,4 @@
-package com.example.newsapplication.api;
+package vn.hieunguyen.newsapplication.api;
 
 import java.io.IOException;
 
